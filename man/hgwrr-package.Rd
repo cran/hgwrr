@@ -12,7 +12,6 @@ coefficients into three types: local fixed effects, global fixed effects,
 and random effects. If data have spatial hierarchical structures
 (especially are overlapping on some locations),
 it is worth trying this model to reach better fitness.
-Hu, Y., Lu, B., Ge, Y., Dong, G. (2022) <doi:10.1177/23998083211063885>
 }
 \details{
 The DESCRIPTION file:
@@ -23,6 +22,13 @@ The DESCRIPTION file:
 \packageAuthor{hgwrr}
 
 Maintainer: \packageMaintainer{hgwrr}
+}
+\references{
+Hu, Y., Lu, B., Ge, Y., Dong, G., 2022.
+Uncovering spatial heterogeneity in real estate prices via
+combined hierarchical linear model and geographically weighted regression.
+Environment and Planning B: Urban Analytics and City Science.
+DOI: 10.1177/23998083211063885.
 }
 \keyword{ package }
 
