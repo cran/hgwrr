@@ -60,7 +60,7 @@
 #' hgwr(formula = y ~ g1 + g2 + x1 + (z1 | group),
 #'      data = multisampling$data,
 #'      local.fixed = c("g1", "g2"),
-#'      coords = multisampling$coord,
+#'      coords = multisampling$coords,
 #'      bw = 10)
 #'
 hgwr <- function(
@@ -80,7 +80,8 @@ hgwr <- function(
     model_desc <- parse.formula(formula)
     y <- as.vector(data[[model_desc$response]])
     group <- as.vector(as.integer(data[[model_desc$group]]))
-    group.unique <- unique(group)
+    group_unique <- unique(group)
+    group_index <- match(group, group_unique)
     z <- as.matrix(cbind(1, data[model_desc$random.effects]))
     fe <- model_desc$fixed.effects
     lfe <- fe[fe %in% local.fixed]
@@ -88,7 +89,7 @@ hgwr <- function(
     x <- as.matrix(cbind(1, data[gfe]))
     g <- as.matrix(cbind(1, aggregate(data[lfe], list(group), mean)[,-1]))
     hgwr_result <- .hgwr_bml(
-        g, x, z, y, as.matrix(coords), group, bw, kernel,
+        g, x, z, y, as.matrix(coords), group_index, bw, kernel,
         alpha, eps_iter, eps_gradient,
         as.integer(max_iters), as.integer(max_retries),
         as.integer(ml_type), as.integer(verbose)
@@ -120,7 +121,7 @@ hgwr <- function(
             z = z,
             group = group
         ),
-        groups = group.unique
+        groups = group_unique
     )
     class(result) <- "hgwrm"
     result
@@ -347,7 +348,7 @@ matrix2char <- function(m, fmt = "%.6f") {
 #' model <- hgwr(formula = y ~ g1 + g2 + x1 + (z1 | group),
 #'               data = multisampling$data,
 #'               local.fixed = c("g1", "g2"),
-#'               coords = multisampling$coord,
+#'               coords = multisampling$coords,
 #'               bw = 10)
 #' print(model)
 #' print(model, table.style = "md")
@@ -430,7 +431,7 @@ print.hgwrm <- function(x, decimal.fmt = "%.6f", ...) {
 #' model <- hgwr(formula = y ~ g1 + g2 + x1 + (z1 | group),
 #'               data = multisampling$data,
 #'               local.fixed = c("g1", "g2"),
-#'               coords = multisampling$coord,
+#'               coords = multisampling$coords,
 #'               bw = 10)
 #' summary(model)
 #'

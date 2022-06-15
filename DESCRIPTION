@@ -1,9 +1,9 @@
 Package: hgwrr
 Type: Package
 Title: Hierarchical and Geographically Weighted Regression
-Version: 0.2-2
+Version: 0.2-3
 Date: 2022-05-17
-Author: Yigong Hu
+Author: Yigong Hu, Richard Harris, Richard Timmerman
 Maintainer: Yigong Hu <yigong.hu@bristol.ac.uk>
 Description: This model divides coefficients into three types,
         i.e., local fixed effects, global fixed effects, and random effects (Hu et al., 2022)<doi:10.1177/23998083211063885>.
@@ -14,8 +14,8 @@ Imports: Rcpp (>= 1.0.8)
 LinkingTo: Rcpp, RcppArmadillo
 Depends: R (>= 3.5.0), stats, utils
 SystemRequirements: GNU make
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 NeedsCompilation: yes
-Packaged: 2022-05-19 10:35:51 UTC; hpdell
+Packaged: 2022-06-15 11:41:35 UTC; hpdell
 Repository: CRAN
-Date/Publication: 2022-05-20 07:10:02 UTC
+Date/Publication: 2022-06-15 13:40:02 UTC

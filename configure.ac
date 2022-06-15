@@ -1,4 +1,4 @@
-AC_INIT([hgwrr], 0.1-0)
+AC_INIT([hgwrr], 0.2-2)
 
 AC_LANG(C++)
 AC_REQUIRE_CPP

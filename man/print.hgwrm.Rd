@@ -35,7 +35,7 @@ data(multisampling)
 model <- hgwr(formula = y ~ g1 + g2 + x1 + (z1 | group),
               data = multisampling$data,
               local.fixed = c("g1", "g2"),
-              coords = multisampling$coord,
+              coords = multisampling$coords,
               bw = 10)
 print(model)
 print(model, table.style = "md")
