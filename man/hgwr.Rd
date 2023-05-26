@@ -9,13 +9,13 @@ hgwr(
   data,
   local.fixed,
   coords,
-  bw,
+  bw = "CV",
   kernel = c("gaussian", "bisquared"),
   alpha = 0.01,
   eps_iter = 1e-06,
   eps_gradient = 1e-06,
   max_iters = 1e+06,
-  max_retries = 10,
+  max_retries = 1e+06,
   ml_type = c("D_Only", "D_Beta"),
   verbose = 0
 )
@@ -33,9 +33,11 @@ It contains names of local fixed effects.}
 \item{coords}{A 2-column matrix.
 It consists of coordinates for each group.}
 
-\item{bw}{A numeric value. It is the value of bandwidth.
+\item{bw}{A numeric value. It is the value of bandwidth or \code{"CV"}.
 In this stage this function only support adaptive bandwidth.
-And its unit must be the number of nearest neighbours.}
+And its unit must be the number of nearest neighbours.
+If \code{"CV"} is specified, the algorithm will automatically select an
+optimized bandwidth value.}
 
 \item{kernel}{A character value. It specify which kernel function is used
 in GWR part. Possible values are
