@@ -2,12 +2,60 @@
 % Please edit documentation in R/hgwr.R
 \name{hgwr}
 \alias{hgwr}
+\alias{hgwr.sf}
+\alias{hgwr.data.frame}
+\alias{hgwr_fit}
 \title{Hierarchical and Geographically Weighted Regression}
 \usage{
 hgwr(
   formula,
   data,
-  local.fixed,
+  ...,
+  bw = "CV",
+  kernel = c("gaussian", "bisquared"),
+  alpha = 0.01,
+  eps_iter = 1e-06,
+  eps_gradient = 1e-06,
+  max_iters = 1e+06,
+  max_retries = 1e+06,
+  ml_type = c("D_Only", "D_Beta"),
+  verbose = 0
+)
+
+\method{hgwr}{sf}(
+  formula,
+  data,
+  ...,
+  bw = "CV",
+  kernel = c("gaussian", "bisquared"),
+  alpha = 0.01,
+  eps_iter = 1e-06,
+  eps_gradient = 1e-06,
+  max_iters = 1e+06,
+  max_retries = 1e+06,
+  ml_type = c("D_Only", "D_Beta"),
+  verbose = 0
+)
+
+\method{hgwr}{data.frame}(
+  formula,
+  data,
+  ...,
+  coords,
+  bw = "CV",
+  kernel = c("gaussian", "bisquared"),
+  alpha = 0.01,
+  eps_iter = 1e-06,
+  eps_gradient = 1e-06,
+  max_iters = 1e+06,
+  max_retries = 1e+06,
+  ml_type = c("D_Only", "D_Beta"),
+  verbose = 0
+)
+
+hgwr_fit(
+  formula,
+  data,
   coords,
   bw = "CV",
   kernel = c("gaussian", "bisquared"),
@@ -23,15 +71,17 @@ hgwr(
 \arguments{
 \item{formula}{A formula.
 Its structure is similar to \code{\link[lme4]{lmer}} function
-in \strong{lme4} package.}
+in \strong{lme4} package.
+Models can be specified with the following form:
 
-\item{data}{A DataFrame.}
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{response ~ L(local.fixed) + global.fixed + (random | group)
+}\if{html}{\out{</div>}}
 
-\item{local.fixed}{A character vector.
-It contains names of local fixed effects.}
+For more information, please see the \code{formula} subsection in details.}
 
-\item{coords}{A 2-column matrix.
-It consists of coordinates for each group.}
+\item{data}{The data.}
+
+\item{\dots}{Further arguments for the specified type of \code{data}.}
 
 \item{bw}{A numeric value. It is the value of bandwidth or \code{"CV"}.
 In this stage this function only support adaptive bandwidth.
@@ -73,6 +123,9 @@ Possible values are:
 \item{1}{only logs in back-fitting are printed.}
 \item{2}{all logs are printed.}
 }}
+
+\item{coords}{A 2-column matrix.
+It consists of coordinates for each group.}
 }
 \value{
 A list describing the model with following fields.
@@ -92,11 +145,36 @@ A list describing the model with following fields.
 \description{
 A Hierarchical Linear Model (HLM) with local fixed effects.
 }
+\details{
+\subsection{Effect Specification in Formula}{
+
+In the HGWR model, there are three types of effects specified by the
+\code{formula} argument:
+\describe{
+\item{Local fixed effects}{Effects wrapped by functional symbol \code{L}.}
+\item{Random effects}{Effects specified outside the functional symbol \code{L} but to the left of symbol \code{|}.}
+\item{Global fixed effects}{Other effects}
+}
+For example, the following formula in the example of this function below is written as
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{y ~ L(g1 + g2) + x1 + (z1 | group)
+}\if{html}{\out{</div>}}
+
+where \code{g1} and \code{g2} are local fixed effects,
+\code{x1} is the global fixed effects,
+and \code{z1} is the random effects grouped by the group indicator \code{group}.
+Note that random effects can only be specified once!
+}
+}
+\section{Functions}{
+\itemize{
+\item \code{hgwr_fit()}: Fit a HGWR model
+
+}}
 \examples{
 data(multisampling)
-hgwr(formula = y ~ g1 + g2 + x1 + (z1 | group),
+hgwr(formula = y ~ L(g1 + g2) + x1 + (z1 | group),
      data = multisampling$data,
-     local.fixed = c("g1", "g2"),
      coords = multisampling$coords,
      bw = 10)
 

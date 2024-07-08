@@ -14,8 +14,8 @@
 \item{...}{
   Arguments passed on to \code{\link[=print.table.md]{print.table.md}}
   \describe{
-    \item{\code{col.sep}}{Column seperator. Default to \code{""}.}
-    \item{\code{header.sep}}{Header seperator. Default to \code{"-"}.}
+    \item{\code{col.sep}}{Column separator. Default to \code{""}.}
+    \item{\code{header.sep}}{Header separator. Default to \code{"-"}.}
     \item{\code{row.begin}}{Character at the beginning of each row.
 Default to \code{col.sep}.}
     \item{\code{row.end}}{Character at the ending of each row.
@@ -32,9 +32,8 @@ Print description of a \code{hgwrm} object.
 }
 \examples{
 data(multisampling)
-model <- hgwr(formula = y ~ g1 + g2 + x1 + (z1 | group),
+model <- hgwr(formula = y ~ L(g1 + g2) + x1 + (z1 | group),
               data = multisampling$data,
-              local.fixed = c("g1", "g2"),
               coords = multisampling$coords,
               bw = 10)
 print(model)

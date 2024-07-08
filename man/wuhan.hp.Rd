@@ -50,7 +50,7 @@ The following variables are group level:
 - \code{d.Supermarket}
 - \code{d.ShoppingMall}
 
-The follwoing variables are sample level:
+The following variables are sample level:
 
 - \code{Price}
 - \code{Floor.High}
@@ -67,11 +67,9 @@ Item "coords" is a 779-by-2 matrix of coordinates of all neighbourhoods.
 \dontrun{
 data(wuhan.hp)
 hgwr(
-  formula = Price ~ d.Water + d.Commercial + d.PrimarySchool +
-            d.Kindergarten + Fee + BuildingArea + (Floor.High | group),
+  formula = Price ~ L(d.Water + d.Commercial + d.PrimarySchool +
+            d.Kindergarten + Fee) + BuildingArea + (Floor.High | group),
   data = wuhan.hp$data,
-  local.fixed = c("d.Water", "d.Commercial", "d.PrimarySchool",
-                  "d.Kindergarten", "Fee"),
   coords = wuhan.hp$coords, bw = 50, kernel = "bisquared")
 }
 }
