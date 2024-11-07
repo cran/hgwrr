@@ -12,9 +12,10 @@
 \item{\dots}{Other arguments passed from other functions.}
 
 \item{test_hetero}{Logical/list value.
-Whether to test the spatial heterogeneity of local fixed effects.
+Whether to test the spatial heterogeneity of GLSW effects.
 If it is set to \code{FALSE}, the test will not be executed.
-If it is set to \code{TRUE}, the test will be executed with default parameters (see details below).
+If it is set to \code{TRUE}, the test will be executed with default parameters
+(see details below).
 It accepts a list to enable the test with specified parameters.}
 
 \item{verbose}{An Integer value to control whether additional messages
@@ -43,12 +44,12 @@ The parameters used to perform test of spatial heterogeneity are
 }
 }
 \examples{
-data(multisampling)
+data(mulsam.test)
 m <- hgwr(
- formula = y ~ L(g1 + g2) + x1 + (z1 | group),
- data = multisampling$data,
- coords = multisampling$coords,
- bw = 10
+  formula = y ~ L(g1 + g2) + x1 + (z1 | group),
+  data = mulsam.test$data,
+  coords = mulsam.test$coords,
+  bw = 10
 )
 summary(m)
 summary(m, test_hetero = TRUE)

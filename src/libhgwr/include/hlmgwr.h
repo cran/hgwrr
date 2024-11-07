@@ -32,14 +32,6 @@ public:  // Type defs
 
     typedef arma::vec (*GWRKernelFunctionSquared)(arma::vec, double);
 
-    enum class BwOptimCriterionType
-    {
-        CV,
-        AIC
-    };
-
-    typedef double (*BwOptimCriterion)(double, void*);
-
     static double actual_bw(arma::vec d, double bw)
     {
         arma::vec ds = sort(d);
@@ -56,7 +48,7 @@ public:  // Type defs
     
     static arma::vec gwr_kernel_bisquare2(arma::vec dist2, double bw2)
     {
-        return ((1 - dist2 / bw2) % (1 - dist2 / bw2)) % (dist2 < bw2);
+        return ((1.0 - dist2 / bw2) % (1.0 - dist2 / bw2)) % (dist2 < bw2);
     }
 
 
@@ -73,11 +65,15 @@ public:  // Type defs
     }
 
     typedef void (*PrintFunction)(const std::string&);
+
+    typedef void (*CancelFunction)();
     
     static void Printer(const std::string& msg)
     {
         (void)msg;
     }
+
+    static void Canceler() { }
 
     struct Options
     {
@@ -113,7 +109,16 @@ public:  // Type defs
         std::reference_wrapper<arma::rowvec> rVsigma;
         std::reference_wrapper<arma::uvec> group;
         GWRKernelFunctionSquared kernel;
+        PrintFunction printer;
     };
+
+    enum class BwOptimCriterionType
+    {
+        CV,
+        AIC
+    };
+
+    typedef double (*BwOptimCriterion)(double, void*);
 
     static double bw_criterion_cv(double bw, void* params);
 
@@ -285,6 +290,8 @@ public:
 
     void set_printer(PrintFunction printer) { pcout = printer; }
 
+    void set_canceler(CancelFunction canceler) { pcancel = canceler; }
+
     double gamma_enp()
     {
         double n = 2.0 * trS[0] - trS[1];
@@ -303,14 +310,15 @@ public:
 
 public:
     int bw_optimisation(double lower, double upper, const BwSelectionArgs* args);
-    void fit_gwr();
+    void fit_gwr(const bool t_test = false, const bool f_test = false);
     arma::vec fit_gls();
     double fit_D(ML_Params* params);
     double fit_D_beta(ML_Params* params);
     void fit_mu();
     double fit_sigma();
-    Parameters fit();
+    Parameters fit(const bool f_test = false);
     void calc_var_beta();
+    std::vector<arma::vec4> test_glsw();
 
 private:
     /* data */
@@ -343,7 +351,7 @@ private:
     size_t verbose = (size_t)0;
     size_t ml_type = (size_t)0;
     PrintFunction pcout = &Printer;
-
+    CancelFunction pcancel = &Canceler;
 
     /* others */
     BwOptimCriterion bw_criterion = &bw_criterion_cv;
@@ -358,11 +366,13 @@ private:
     arma::uword nvg;
     arma::uword nvx;
     arma::uword nvz;
+    std::vector<arma::span> group_span;
 
     /* diagnostic information */
     double loglik = 0;
     arma::vec trS;
     arma::vec var_beta;
+    arma::vec trQ;
 };
     
 }

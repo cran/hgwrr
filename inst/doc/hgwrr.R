@@ -16,11 +16,11 @@ m_sf <- hgwr(
 )
 
 ## -----------------------------------------------------------------------------
-data(multisampling)
+data(mulsam.test)
 m_df <- hgwr(
   formula = y ~ L(g1 + g2) + x1 + (z1 | group),
-  data = multisampling$data,
-  coords = multisampling$coords
+  data = mulsam.test$data,
+  coords = mulsam.test$coords
 )
 
 ## -----------------------------------------------------------------------------
