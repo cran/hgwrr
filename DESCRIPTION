@@ -1,8 +1,8 @@
 Package: hgwrr
 Type: Package
 Title: Hierarchical and Geographically Weighted Regression
-Version: 0.6-0
-Date: 2024-11-06
+Version: 0.6-1
+Date: 2024-11-15
 Authors@R: c(person(given = "Yigong",
                     family = "Hu",
                     role = c("aut", "cre"),
@@ -29,9 +29,9 @@ SystemRequirements: GNU make
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Config/Needs/website: tidyverse, ggplot2, tmap, lme4, spdep, GWmodel
-Packaged: 2024-11-07 09:26:55 UTC; yigong
+Packaged: 2024-11-15 16:39:59 UTC; yigong
 Author: Yigong Hu [aut, cre],
   Richard Harris [aut],
   Richard Timmerman [aut]
 Repository: CRAN
-Date/Publication: 2024-11-07 09:50:02 UTC
+Date/Publication: 2024-11-16 11:50:02 UTC
